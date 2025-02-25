@@ -5,17 +5,13 @@ namespace MvcNetCoreCryptography.Helpers
 {
     public class HelperCryptography
     {
-        //VAMOS A CREAR UN PAR DE METODOS QUE NO 
-        //TIENEN NADA QUE VER CON CRIPTOGRAFIA
-        //SI TENEMOS MUCHOS METODOS QUE SIMPLEMENTE SON 
-        //HERRAMIENTAS, LO SUYO ES CREAR UNA CLASE 
-        //HelperToolkit
+        //VAMOS A CREAR UN PAR DE METODOS QUE NO TIENEN NADA QUE VER CON CRIPTOGRAFIA
+        //SI TENEMOS MUCHOS METODOS QUE SIMPLEMENTE SON HERRAMIENTAS, LO SUYO ES CREAR UNA CLASE HelperToolkit
         public static string GenerateSalt()
         {
             Random random = new Random();
             string salt = "";
-            //EL NUMERO DE VUELTAS DEBE COINCIDIR CON 
-            //EL VALOR DEL CAMPO NVARCHAR
+            //EL NUMERO DE VUELTAS DEBE COINCIDIR CON EL VALOR DEL CAMPO NVARCHAR
             for (int i = 1; i <= 50; i++)
             {
                 int aleat = random.Next(1, 255);
@@ -25,8 +21,7 @@ namespace MvcNetCoreCryptography.Helpers
             return salt;
         }
 
-        //NECESITAMOS SABER SI EL PASSWORD QUE HEMOS ALMACENADO
-        //EN BBDD ES IGUAL AL PASSWORD QUE NOS HABRAN DADO EN LA APP
+        //NECESITAMOS SABER SI EL PASSWORD QUE HEMOS ALMACENADO EN BBDD ES IGUAL AL PASSWORD QUE NOS HABRAN DADO EN LA APP
         //ESTE ES UN METODO PARA COMPARAR DOS ARRAYS DE BYTES
         public static bool CompararArrays(byte[] a, byte[] b)
         {
@@ -53,8 +48,7 @@ namespace MvcNetCoreCryptography.Helpers
         }
 
         //TENDREMOS UN METODO PARA CIFRAR EL PASSWORD
-        //VAMOS A RECIBIR EL PASSWORD A CIFRAR (string) 
-        //Y TAMBIEN VAMOS A RECIBIR EL SALT (string)
+        //VAMOS A RECIBIR EL PASSWORD A CIFRAR (string) Y TAMBIEN VAMOS A RECIBIR EL SALT (string)
         //DEVOLVEREMOS UN ARRAY CON EL RESULTADO
         public static byte[] EncryptPassword(string password, string salt)
         {
@@ -70,7 +64,5 @@ namespace MvcNetCoreCryptography.Helpers
             managed.Clear();
             return salida;
         }
-
-
     }
 }

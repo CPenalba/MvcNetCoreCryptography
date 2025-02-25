@@ -17,11 +17,8 @@ namespace MvcNetCoreCryptography.Models
         public string Imagen { get; set; }
         [Column("SALT")]
         public string Salt { get; set; }
-        //UNA VENTAJA QUE TENEMOS ESTA EN QUE LOS 
-        //VARBINARY O BLOB CON CONVERTIDOS A byte[]
-        //AUTOMATICAMENTE CON EF
+        //UNA VENTAJA QUE TENEMOS ESTA EN QUE LOS VARBINARY O BLOB SON CONVERTIDOS A byte[] AUTOMATICAMENTE CON EF
         [Column("PASS")]
         public byte[] Password { get; set; }
     }
-
 }

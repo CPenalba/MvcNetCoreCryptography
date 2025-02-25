@@ -19,12 +19,9 @@ namespace MvcNetCoreCryptography.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>
-            Register(string nombre, string email
-            , string password, string imagen)
+        public async Task<IActionResult> Register(string nombre, string email, string password, string imagen)
         {
-            await this.repo.RegisterUserAsync(nombre, email,
-                password, imagen);
+            await this.repo.RegisterUserAsync(nombre, email, password, imagen);
             ViewData["MENSAJE"] = "Usuario registrado correctamente";
             return View();
         }
@@ -35,8 +32,7 @@ namespace MvcNetCoreCryptography.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>
-            LogIn(string email, string password)
+        public async Task<IActionResult> LogIn(string email, string password)
         {
             Usuario user = await this.repo.LogInUserAsync(email, password);
             if (user == null)
@@ -49,7 +45,5 @@ namespace MvcNetCoreCryptography.Controllers
                 return View(user);
             }
         }
-
-
     }
 }

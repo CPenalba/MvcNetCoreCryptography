@@ -22,14 +22,11 @@ namespace MvcNetCoreCryptography.Repositories
             }
             else
             {
-                return await this.context.Usuarios.MaxAsync
-                    (x => x.IdUsuario) + 1;
+                return await this.context.Usuarios.MaxAsync(x => x.IdUsuario) + 1;
             }
         }
 
-        public async Task RegisterUserAsync(string nombre,
-            string email,
-            string password, string imagen)
+        public async Task RegisterUserAsync(string nombre, string email, string password, string imagen)
         {
             Usuario user = new Usuario();
             user.IdUsuario = await this.GetMaxIdUser();
@@ -39,23 +36,17 @@ namespace MvcNetCoreCryptography.Repositories
             //CADA USUARIO TENDRA UN SALT DIFERENTE
             user.Salt = HelperCryptography.GenerateSalt();
             //ALMACENAMOS EL PASSWORD CIFRADO A byte[]
-            user.Password =
-                HelperCryptography.EncryptPassword(password, user.Salt);
+            user.Password = HelperCryptography.EncryptPassword(password, user.Salt);
             this.context.Usuarios.Add(user);
             await this.context.SaveChangesAsync();
         }
 
-        //NECESITAMOS UN METODO PARA HACER UN LOGIN DE USUARIO
-        //Y DEVOLVEMOS AL USUARIO SI HEMOS COMPROBADO TODO CORRECTAMENTE
-        //COMO TENEMOS CIFRADO, DEBEMOS HACER EL LOGIN PIDIENDO
-        //DATOS UNICOS (email, username, nif)
-        public async Task<Usuario> LogInUserAsync
-            (string email, string password)
+        //NECESITAMOS UN METODO PARA HACER UN LOGIN DE USUARIO Y DEVOLVEMOS AL USUARIO SI HEMOS COMPROBADO TODO CORRECTAMENTE
+        //COMO TENEMOS CIFRADO, DEBEMOS HACER EL LOGIN PIDIENDO DATOS UNICOS (email, username, nif)
+        public async Task<Usuario> LogInUserAsync(string email, string password)
         {
             //BUSCAMOS AL USUARIO POR EL DATO UNICO (email)
-            var consulta = from datos in this.context.Usuarios
-                           where datos.Email == email
-                           select datos;
+            var consulta = from datos in this.context.Usuarios where datos.Email == email select datos;
             Usuario user = await consulta.FirstOrDefaultAsync();
             if (user == null)
             {
@@ -65,15 +56,12 @@ namespace MvcNetCoreCryptography.Repositories
             {
                 //RECUPERAMOS EL SALT DEL USUARIO DE BBDD
                 string salt = user.Salt;
-                //CONVERTIMOS EL PASSWORD QUE NOS HAN DADO Y EL SALT
-                //A byte[]
-                byte[] temp =
-                    HelperCryptography.EncryptPassword(password, salt);
+                //CONVERTIMOS EL PASSWORD QUE NOS HAN DADO Y EL SALT A byte[]
+                byte[] temp = HelperCryptography.EncryptPassword(password, salt);
                 //RECUPERAMOS EL PASSWORD DE BYTE[] DE BBDD
                 byte[] passBytes = user.Password;
                 //POR ULTIMO, REALIZAMOS LA COMPARACION  DE ARRAYS
-                bool response =
-                    HelperCryptography.CompararArrays(temp, passBytes);
+                bool response = HelperCryptography.CompararArrays(temp, passBytes);
                 if (response == true)
                 {
                     return user;
